@@ -238,7 +238,7 @@ $products = getproducts($db);
     </div>
 <script>
     //Load products from localStorage and display
-    function carregarproducts() {
+    function loadProducts() {
         const productsTable = document.getElementById('products-body');
         productsTable.innerHTML = '';
         let products = JSON.parse(localStorage.getItem('products')) || [];
@@ -263,7 +263,7 @@ $products = getproducts($db);
     }
 
     //Adds an new product into HTML
-    function adicionarProduct(event) {
+    function addProduct(event) {
         event.preventDefault();
 
         const name = document.getElementById('name').value;
@@ -297,7 +297,7 @@ $products = getproducts($db);
         document.getElementById('form-product').reset();
 
         //Updates the products on display
-        carregarproducts();
+        loadProducts();
     }
 
     //Edit a product
@@ -316,7 +316,7 @@ $products = getproducts($db);
     }
 
     //Saves the edited product changes
-    function salvarEdicao(event) {
+    function saveEdit(event) {
         event.preventDefault();
 
         const id = document.getElementById('edit-id').value;
@@ -342,7 +342,7 @@ $products = getproducts($db);
 
         //Hides the edition form and reloads the products on the table
         document.getElementById('edit-formulario').style.display = 'none';
-        carregarproducts();
+        loadProducts();
     }
 
     //Cancell the products edition
@@ -358,15 +358,15 @@ $products = getproducts($db);
             let products = JSON.parse(localStorage.getItem('products')) || [];
             products.splice(index, 1); //Remove o product do array
             localStorage.setItem('products', JSON.stringify(products));
-            carregarproducts(); //Atualiza a tabela
+            loadProducts(); //Atualiza a tabela
         }
     }
 
     //Load the products when load the page
     document.addEventListener('DOMContentLoaded', () => {
-        carregarproducts();
-        document.getElementById('form-product').addEventListener('submit', adicionarProduct);
-        document.getElementById('form-edit-product').addEventListener('submit', salvarEdicao);
+        loadProducts();
+        document.getElementById('form-product').addEventListener('submit', addProduct);
+        document.getElementById('form-edit-product').addEventListener('submit', saveEdit);
     });
 
     //Delete localStorage
