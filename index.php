@@ -120,12 +120,6 @@ $products = getproducts($db);
             outline: none;
         }
 
-        .forms {
-            width: 100%;
-            display: flex;
-            justify-content: space-evenly;
-        }
-
         form {
             display: flex;
             flex-direction: column;
@@ -185,39 +179,37 @@ $products = getproducts($db);
 <body>
     <div class="container">
         <h1>Products</h1>
-        <div class="forms">
-            <div id="edit-formulario" class="edit-form">
-                <h2>Edit Product</h2>
-                <form id="form-edit-product">
-                    <input type="hidden" id="edit-id">
-                    <label for="edit-name">Name:</label>
-                    <input type="text" id="edit-name" required>
-                    <br>
-                    <label for="edit-description">Description:</label>
-                    <textarea id="edit-description"></textarea>
-                    <br>
-                    <label for="edit-price">Price:</label>
-                    <input type="number" id="edit-price" step="0.01" required>
-                    <br>
-                    <button type="submit">Save Changes</button>
-                    <button type="button" onclick="cancelarEdicao()">Cancel</button>
-                </form>
-            </div>
-
-            <form id="form-product">
-                <h2>Add New Product</h2>
-                <label for="name">Name:</label>
-                <input type="text" id="name" placeholder="Insert name" required>
+        <div id="edit-form" class="edit-form">
+            <h2>Edit Product</h2>
+            <form id="form-edit-product">
+                <input type="hidden" id="edit-id">
+                <label for="edit-name">Name:</label>
+                <input type="text" id="edit-name" required>
                 <br>
-                <label for="description">Description:</label>
-                <textarea id="description"  placeholder="Insert description"></textarea>
+                <label for="edit-description">Description:</label>
+                <textarea id="edit-description"></textarea>
                 <br>
-                <label for="price">Price:</label>
-                <input type="number" id="price" step="0.01"  placeholder="Insert price" required>
+                <label for="edit-price">Price:</label>
+                <input type="number" id="edit-price" step="0.01" required>
                 <br>
-                <button type="submit">Add New</button>
+                <button type="submit">Save Changes</button>
+                <button type="button" onclick="cancelarEdicao()">Cancel</button>
             </form>
         </div>
+
+        <form id="form-product">
+            <h2>Add New Product</h2>
+            <label for="name">Name:</label>
+            <input type="text" id="name" placeholder="Insert name" required>
+            <br>
+            <label for="description">Description:</label>
+            <textarea id="description"  placeholder="Insert description"></textarea>
+            <br>
+            <label for="price">Price:</label>
+            <input type="number" id="price" step="0.01"  placeholder="Insert price" required>
+            <br>
+            <button type="submit">Add New</button>
+        </form>
 
 
         <h2>Products List</h2>
@@ -311,8 +303,9 @@ $products = getproducts($db);
         document.getElementById('edit-description').value = product.description;
         document.getElementById('edit-price').value = product.price.toFixed(2);
 
-        //Display the edit form
-        document.getElementById('edit-formulario').style.display = 'block';
+        //Display the edit form and hide add
+        document.getElementById('edit-form').style.display = 'block';
+        document.getElementById('form-product').style.display = 'none';
     }
 
     //Saves the edited product changes
@@ -341,7 +334,8 @@ $products = getproducts($db);
         localStorage.setItem('products', JSON.stringify(products));
 
         //Hides the edition form and reloads the products on the table
-        document.getElementById('edit-formulario').style.display = 'none';
+        document.getElementById('edit-form').style.display = 'none';
+        document.getElementById('form-product').style.display = 'flex';
         loadProducts();
     }
 
@@ -349,16 +343,17 @@ $products = getproducts($db);
     function cancelarEdicao() {
         //Clear the edition fields and hides the form
         document.getElementById('form-edit-product').reset();
-        document.getElementById('edit-formulario').style.display = 'none';
+        document.getElementById('edit-form').style.display = 'none';
+        document.getElementById('form-product').style.display = 'flex';
     }
 
     //Delete a product
     function excluirProduct(index) {
         if (confirm('Are you sure you want to delete it?')) {
             let products = JSON.parse(localStorage.getItem('products')) || [];
-            products.splice(index, 1); //Remove o product do array
+            products.splice(index, 1);
             localStorage.setItem('products', JSON.stringify(products));
-            loadProducts(); //Atualiza a tabela
+            loadProducts();
         }
     }
 
