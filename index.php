@@ -173,6 +173,10 @@ $products = getproducts($db);
                 flex-direction: column;
                 justify-content: center;
             }
+
+            th {
+                display: none;
+            }
         }
     </style>
 </head>
